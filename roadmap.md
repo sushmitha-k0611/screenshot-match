@@ -1,0 +1,3 @@
+- [ ] Create MarketMind's responsive dashboard shell and all requested screens.
+- [ ] Add demo-labeled market visualizations, local watchlist interactions, history filters, and research-request UI.
+- [ ] Verify routes, tests, preview health, and responsive layout.
