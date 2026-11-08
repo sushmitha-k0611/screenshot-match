@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Application structure
+
+- Keep the MarketMind client organized into reusable UI, data/types, and a centralized FastAPI service layer; the service boundary keeps this frontend integration-ready without implementing the separate backend.
