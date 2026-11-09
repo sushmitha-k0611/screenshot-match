@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { MarketMindApp } from "@/components/marketmind-app";
 
 export const Route = createFileRoute("/stocks")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    ticker: typeof search.ticker === "string" ? search.ticker : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Stock research | MarketMind AI" },
@@ -12,5 +15,10 @@ export const Route = createFileRoute("/stocks")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: () => <MarketMindApp page="stocks" />,
+  component: StockResearchRoute,
 });
+
+function StockResearchRoute() {
+  const { ticker } = Route.useSearch();
+  return <MarketMindApp page="stocks" ticker={ticker} />;
+}

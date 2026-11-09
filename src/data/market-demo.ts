@@ -22,6 +22,10 @@ export const demoTasks: ResearchTask[] = [
   { id: "MM-2407", company: "Infosys", ticker: "INFY", createdAt: "Yesterday, 3:18 PM", status: "Completed", scope: "Fundamental + risk" },
   { id: "MM-2406", company: "HDFC Bank", ticker: "HDFCBANK", createdAt: "Yesterday, 10:06 AM", status: "Running", scope: "Full analysis" },
   { id: "MM-2405", company: "Tata Consultancy Services", ticker: "TCS", createdAt: "Nov 06, 2026", status: "Failed", scope: "Technical analysis" },
+  { id: "MM-2404", company: "ICICI Bank", ticker: "ICICIBANK", createdAt: "Nov 05, 2026", status: "Completed", scope: "Technical analysis" },
+  { id: "MM-2403", company: "Bharti Airtel", ticker: "BHARTIARTL", createdAt: "Nov 04, 2026", status: "Pending", scope: "Full analysis" },
+  { id: "MM-2402", company: "Larsen & Toubro", ticker: "LT", createdAt: "Nov 03, 2026", status: "Completed", scope: "Fundamental + risk" },
+  { id: "MM-2401", company: "State Bank of India", ticker: "SBIN", createdAt: "Nov 02, 2026", status: "Running", scope: "Full analysis" },
 ];
 
 export const demoCandles: Candle[] = Array.from({ length: 40 }, (_, index) => {
