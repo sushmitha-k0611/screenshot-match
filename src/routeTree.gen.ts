@@ -9,27 +9,149 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as AiResearchRouteImport } from './routes/ai-research'
+import { Route as HistoryRouteImport } from './routes/history'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as StocksRouteImport } from './routes/stocks'
+import { Route as WatchlistRouteImport } from './routes/watchlist'
 
-export interface FileRoutesByFullPath {}
-export interface FileRoutesByTo {}
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiResearchRoute = AiResearchRouteImport.update({
+  id: '/ai-research',
+  path: '/ai-research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StocksRoute = StocksRouteImport.update({
+  id: '/stocks',
+  path: '/stocks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WatchlistRoute = WatchlistRouteImport.update({
+  id: '/watchlist',
+  path: '/watchlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/ai-research': typeof AiResearchRoute
+  '/history': typeof HistoryRoute
+  '/settings': typeof SettingsRoute
+  '/stocks': typeof StocksRoute
+  '/watchlist': typeof WatchlistRoute
+}
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/ai-research': typeof AiResearchRoute
+  '/history': typeof HistoryRoute
+  '/settings': typeof SettingsRoute
+  '/stocks': typeof StocksRoute
+  '/watchlist': typeof WatchlistRoute
+}
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/ai-research': typeof AiResearchRoute
+  '/history': typeof HistoryRoute
+  '/settings': typeof SettingsRoute
+  '/stocks': typeof StocksRoute
+  '/watchlist': typeof WatchlistRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: never
+  fullPaths:
+    '/' | '/ai-research' | '/history' | '/settings' | '/stocks' | '/watchlist'
   fileRoutesByTo: FileRoutesByTo
-  to: never
-  id: '__root__'
+  to: '/' | '/ai-research' | '/history' | '/settings' | '/stocks' | '/watchlist'
+  id:
+    | '__root__'
+    | '/'
+    | '/ai-research'
+    | '/history'
+    | '/settings'
+    | '/stocks'
+    | '/watchlist'
   fileRoutesById: FileRoutesById
 }
-export interface RootRouteChildren {}
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {}
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  AiResearchRoute: typeof AiResearchRoute
+  HistoryRoute: typeof HistoryRoute
+  SettingsRoute: typeof SettingsRoute
+  StocksRoute: typeof StocksRoute
+  WatchlistRoute: typeof WatchlistRoute
 }
 
-const rootRouteChildren: RootRouteChildren = {}
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-research': {
+      id: '/ai-research'
+      path: '/ai-research'
+      fullPath: '/ai-research'
+      preLoaderRoute: typeof AiResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stocks': {
+      id: '/stocks'
+      path: '/stocks'
+      fullPath: '/stocks'
+      preLoaderRoute: typeof StocksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/watchlist': {
+      id: '/watchlist'
+      path: '/watchlist'
+      fullPath: '/watchlist'
+      preLoaderRoute: typeof WatchlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AiResearchRoute: AiResearchRoute,
+  HistoryRoute: HistoryRoute,
+  SettingsRoute: SettingsRoute,
+  StocksRoute: StocksRoute,
+  WatchlistRoute: WatchlistRoute,
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
