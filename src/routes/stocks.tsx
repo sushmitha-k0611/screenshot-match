@@ -19,5 +19,5 @@ export const Route = createFileRoute("/stocks")({
 
 function StockResearchRoute() {
   const { ticker } = Route.useSearch();
-  return <MarketMindApp page="stocks" ticker={ticker} />;
+  return <MarketMindApp page="stocks" ticker={ticker ?? ""} />;
 }
