@@ -1,10 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { z } from "zod";
 import { MarketMindApp } from "@/components/marketmind-app";
 
 export const Route = createFileRoute("/stocks")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    ticker: typeof search.ticker === "string" ? search.ticker : undefined,
-  }),
+  validateSearch: z.object({ ticker: z.string().optional() }),
   head: () => ({
     meta: [
       { title: "Stock research | MarketMind AI" },
