@@ -52,7 +52,7 @@ function Sidebar({ page, onClose }: { page: Page; onClose: () => void }) {
     <div className="px-3 pt-7"><p className="px-3 pb-3 text-[10px] font-semibold tracking-[0.16em] text-muted-foreground">WORKSPACE</p>
       <nav className="space-y-1">{navigation.map((item) => {
         const Icon = item.icon; const active = item.key === page;
-        return <Link key={item.key} to={item.path} onClick={onClose} className={`group flex h-10 items-center gap-3 rounded-md px-3 text-[13px] transition-colors ${active ? "bg-primary/10 font-medium text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`}>
+        return <Link key={item.key} to={item.path} {...(item.key === "stocks" ? { search: { ticker: "" } } : {})} onClick={onClose} className={`group flex h-10 items-center gap-3 rounded-md px-3 text-[13px] transition-colors ${active ? "bg-primary/10 font-medium text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`}>
           <Icon className={`size-[17px] ${active ? "text-primary" : "text-muted-foreground group-hover:text-foreground"}`} />{item.title}{active && <span className="ml-auto size-1.5 rounded-full bg-primary" />}
         </Link>;
       })}</nav>
@@ -88,7 +88,7 @@ function Topbar({ onMenu }: { onMenu: () => void }) {
 }
 
 function PageHeading({ eyebrow, title, sub, action }: { eyebrow: string; title: string; sub: string; action?: ReactNode }) {
-  return <div className="mb-7 flex flex-wrap items-end justify-between gap-4"><div><p className="mb-2 text-[10px] font-semibold tracking-[0.16em] text-market-blue">{eyebrow}</p><h1 className="font-display text-2xl font-semibold tracking-tight md:text-[28px]">{title}</h1><p className="mt-1.5 text-sm text-muted-foreground">{sub}</p></div>{action}</div>;
+  return <div className="mb-7 flex flex-wrap items-end justify-between gap-4"><div><p className="mb-2 text-[10px] font-semibold tracking-normal text-market-blue">{eyebrow}</p><h1 className="font-display text-2xl font-semibold md:text-[28px]">{title}</h1><p className="mt-1.5 text-sm text-muted-foreground">{sub}</p></div>{action}</div>;
 }
 
 function SectionHeader({ title, action }: { title: string; action?: ReactNode }) {
