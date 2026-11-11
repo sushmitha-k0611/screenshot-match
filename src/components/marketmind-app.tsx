@@ -67,7 +67,7 @@ function Sidebar({ page, onClose }: { page: Page; onClose: () => void }) {
 function SearchBox({ compact = false }: { compact?: boolean }) {
   const [value, setValue] = useState(""); const [open, setOpen] = useState(false); const navigate = useNavigate();
   const matches = demoStocks.filter((stock) => `${stock.ticker} ${stock.company}`.toLowerCase().includes(value.toLowerCase())).slice(0, 5);
-  const select = (ticker?: string) => { setOpen(false); setValue(""); void navigate({ to: "/stocks", search: { ticker } }); };
+  const select = (ticker?: string) => { setOpen(false); setValue(""); void navigate({ to: "/stocks", search: { ticker: ticker ?? "" } }); };
   return <div className={`relative ${compact ? "w-full" : "w-full max-w-[330px]"}`}>
     <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
     <Input value={value} onChange={(e) => { setValue(e.target.value); setOpen(true); }} onFocus={() => setOpen(true)} onKeyDown={(e) => { if (e.key === "Enter" && value) select(); if (e.key === "Escape") setOpen(false); }} placeholder="Search stocks or companies" className="h-9 border-border bg-background pl-9 pr-14 text-xs" aria-label="Search stocks or companies" />
@@ -160,7 +160,7 @@ function StatusPill({ status }: { status: ResearchStatus }) {
   return <span className={`inline-flex items-center gap-1 rounded px-2 py-1 text-[10px] font-medium ${cls}`}><span className="size-1.5 rounded-full bg-current" />{status}</span>;
 }
 
-function StockResearch({ addStock, stocks, ticker }: { addStock: (stock: Stock) => void; stocks: Stock[]; ticker?: string }) {
+function StockResearch({ addStock, stocks, ticker }: { addStock: (stock: Stock) => void; stocks: Stock[]; ticker: string }) {
   const [query, setQuery] = useState(""); const [selected, setSelected] = useState<Stock | null>(demoStocks.find((stock) => stock.ticker === ticker) ?? demoStocks[0] ?? null); const [period, setPeriod] = useState<ChartPeriod>("3M");
   const matches = useMemo(() => query ? demoStocks.filter((s) => `${s.ticker} ${s.company}`.toLowerCase().includes(query.toLowerCase())) : [], [query]);
   const isAdded = selected ? stocks.some((s) => s.ticker === selected.ticker) : false;
@@ -207,9 +207,9 @@ function Settings() {
 
 export function MarketMindApp({ page, ticker }: { page: Page; ticker?: string | undefined }) {
   const [mobileNav, setMobileNav] = useState(false); const navigate = useNavigate(); const { stocks, addStock, removeStock } = useWatchlist();
-  const changePage = (next: Page) => { const route = navigation.find((item) => item.key === next); if (route) void navigate({ to: route.path }); };
+  const changePage = (next: Page) => { const route = navigation.find((item) => item.key === next); if (route) void navigate(route.key === "stocks" ? { to: "/stocks", search: { ticker: "" } } : { to: route.path }); };
   const title = navigation.find((item) => item.key === page)?.title ?? "Overview";
   return <div className="min-h-screen bg-background text-foreground"><div className="fixed inset-y-0 left-0 z-20 hidden w-[250px] md:block"><Sidebar page={page} onClose={() => setMobileNav(false)} /></div>{mobileNav && <div className="fixed inset-0 z-40 md:hidden"><Button variant="ghost" aria-label="Close navigation overlay" className="absolute inset-0 h-full w-full rounded-none bg-foreground/30" onClick={() => setMobileNav(false)} /><div className="absolute inset-y-0 left-0 w-[280px] max-w-[85vw]"><Sidebar page={page} onClose={() => setMobileNav(false)} /></div></div>}
-    <div className="md:pl-[250px]"><Topbar onMenu={() => setMobileNav(true)} /><main className="mx-auto max-w-[1600px] px-4 py-6 md:px-7 md:py-8"><div className="sr-only" aria-live="polite">{title}</div>{page === "overview" && <MarketOverview onNavigate={changePage} stocks={stocks} />}{page === "stocks" && <StockResearch addStock={addStock} stocks={stocks} ticker={ticker?.toUpperCase()} />}{page === "ai-research" && <AiResearch />}{page === "watchlist" && <Watchlist stocks={stocks} addStock={addStock} removeStock={removeStock} />}{page === "history" && <ResearchHistory />}{page === "settings" && <Settings />}<footer className="mt-8 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4 text-[10px] text-muted-foreground"><span>MarketMind AI · Frontend demo</span><span>All figures are illustrative and are not investment advice.</span></footer></main></div>
+    <div className="md:pl-[250px]"><Topbar onMenu={() => setMobileNav(true)} /><main className="mx-auto max-w-[1600px] px-4 py-6 md:px-7 md:py-8"><div className="sr-only" aria-live="polite">{title}</div>{page === "overview" && <MarketOverview onNavigate={changePage} stocks={stocks} />}{page === "stocks" && <StockResearch addStock={addStock} stocks={stocks} ticker={ticker?.toUpperCase() ?? ""} />}{page === "ai-research" && <AiResearch />}{page === "watchlist" && <Watchlist stocks={stocks} addStock={addStock} removeStock={removeStock} />}{page === "history" && <ResearchHistory />}{page === "settings" && <Settings />}<footer className="mt-8 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4 text-[10px] text-muted-foreground"><span>MarketMind AI · Frontend demo</span><span>All figures are illustrative and are not investment advice.</span></footer></main></div>
   </div>;
 }
